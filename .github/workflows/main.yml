@@ -2,11 +2,9 @@ name: Stock Data Update
 
 on:
   schedule:
-    # 한국 시간(KST) 매주 토요일 오전 9시 = UTC 금요일 밤 12시
-    - cron: '0 0 * * 6'
-  workflow_dispatch: # 수동 실행 버튼 활성화
+    - cron: '0 0 * * 6' # 토요일 09:00 KST
+  workflow_dispatch:
 
-# 파일 쓰기 권한을 명시적으로 부여 (Permission Error 방지)
 permissions:
   contents: write
 
@@ -15,29 +13,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4 # 최신 버전으로 업데이트 (Node.js 경고 해결)
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v5 # 최신 버전으로 업데이트
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11' # 버전을 3.11로 업그레이드
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          # pandas-ta의 설치 호환성을 위해 직접 설치를 권장합니다.
+          # 라이브러리들을 개별적으로 설치하여 오류 발생 지점을 명확히 합니다.
           pip install yfinance pandas openpyxl
-          pip install pandas-ta
+          # pandas-ta는 최신 pandas와의 호환성을 위해 아래 경로로 직접 설치합니다.
+          pip install git+https://github.com/twopirllc/pandas-ta.git
 
       - name: Run analysis
-        # python 단어 중복 제거 및 실제 파일명(tck_analysis_github.py) 적용
         run: python tck_analysis_github.py
 
       - name: Commit and Push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          # 새로 생성된 json 및 xlsx 파일을 스테이징에 추가
-          git add stock_analysis.json
-          # 변경 사항이 있는 경우에만 커밋 및 푸시 (에러 방지)
+          # 생성된 파일들을 강제로 추가합니다.
+          git add stock_analysis.json || echo "No files to add"
+          # 변경사항이 있는 경우에만 커밋합니다.
           git diff --quiet && git diff --staged --quiet || (git commit -m "Update stock data: $(date +'%Y-%m-%d')" && git push)
