@@ -19,7 +19,7 @@
   .top-container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end; /* 하단 정렬로 변경하여 텍스트와 박스 정렬 유지 */
     margin-bottom: 20px;
   }
 
@@ -30,6 +30,15 @@
     color: #fff;
     border-radius: 4px;
     width: 250px;
+  }
+
+  /* 업데이트 정보 텍스트 스타일 */
+  .update-info {
+    font-size: 12px;
+    color: #94a3b8;
+    text-align: right;
+    margin-bottom: 6px;
+    font-weight: normal;
   }
 
   .button-guide {
@@ -122,13 +131,17 @@
     <input type="text" id="tickerSearch" placeholder="Ticker 검색 (예: AAPL)" oninput="renderTable()">
   </div>
   
-  <div class="button-guide">
-    <span><b>Golden(상승추세)</b></span>
-    <span><b>Dead(하락추세)</b></span>
-    <span><b>RSI 70 이상(과매수-탐욕)</b></span>
-    <span><b>RSI 30 이하(과매도-공포)</b></span>
-    <span>↕️ <b>정렬</b></span>
-    <span>🔍 <b>조건 설정</b></span>
+  <div class="guide-wrapper">
+    <div class="update-info"> 매주 토요일 오전 8시 업데이트</div>
+    
+    <div class="button-guide">
+      <span><b>Golden(상승추세)</b></span>
+      <span><b>Dead(하락추세)</b></span>
+      <span><b>RSI 70 이상(과매수-탐욕)</b></span>
+      <span><b>RSI 30 이하(과매도-공포)</b></span>
+      <span>↕️ <b>정렬</b></span>
+      <span>🔍 <b>조건 설정</b></span>
+    </div>
   </div>
 </div>
 
@@ -276,11 +289,6 @@ function renderTable() {
   tbody.innerHTML = '';
 
   const rsiColor = v => v >= 70 ? "red" : (v <= 30 ? "blue" : "white");
-  
-  /**
-   * 이격도 절댓값이 5 이하일 때 노란색 반환 함수
-   * Math.abs(v) <= 5 : -5% 에서 +5% 사이의 값들을 모두 노란색으로 표시
-   */
   const distColor = v => (v !== null && Math.abs(v) <= 5) ? "yellow" : "white";
 
   result.forEach(item => {
