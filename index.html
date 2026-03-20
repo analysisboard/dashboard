@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta name="description" content="주식 및 ETF 기술적 지표 모니터링 시스템. RSI, 이동평균선을 분석합니다.">
+<meta name="keywords" content="주식, ETF 모니터링, 기술적지표, 이동평균선, RSI, 투자">
+
 <meta charset="UTF-8">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7049952308538137"
      crossorigin="anonymous"></script>
@@ -14,15 +19,21 @@
     font-family: 'Segoe UI', sans-serif;
     height:100vh;
     display:flex;
-    justify-content:center;
+    flex-direction:column;
     align-items:center;
   }
 
-  .container {
-    text-align:center;
-    width:100%;
-    max-width:1000px;
-  }
+.container {
+  text-align: center;
+  width: 100%;
+  max-width: 1000px;
+  /* 카드가 있는 메인 영역이 공간을 다 차지하게 해서 푸터를 아래로 밀어냅니다 */
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 20px;
+}
 
   h1 {
     font-size:40px;
@@ -127,6 +138,23 @@
 
   </div>
 </div>
+
+<body>
+
+
+
+<div style="padding: 20px; color: #1e293b; font-size: 10px; text-align: center; width: 100%; border-top: 1px solid #1e293b;">
+    <p style="margin-bottom: 5px;">본 시스템은 RSI, 이동평균선, 이격도 알고리즘 기반 투자 보조 도구입니다.</p>
+    <p>
+        © 2026 Stock Monitoring. 
+        <span style="cursor: pointer; text-decoration: underline;" onclick="alert('Contact: shareyou3833@gmail.com')">Contact</span> | 
+        <span style="cursor: pointer; text-decoration: underline;" onclick="document.getElementById('privacy-modal').style.display='block'">Privacy Policy</span>
+    </p>
+</div>
+
+<div id="privacy-modal">...</div>
+
+</body>
 
 </body>
 </html>
